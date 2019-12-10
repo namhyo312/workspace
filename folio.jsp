@@ -279,7 +279,7 @@ font-size:x-large;
                            
                         </div>
                         <div class="button-container">
-                            <a class="btn-solid-reg page-scroll" href="#callMe">DETAILS</a>
+                            <a class="btn-solid-reg page-scroll" href="http://boysky312.cafe24.com">DETAILS</a>
                         </div> <!-- end of button-container -->
                     </div>
                     <!-- end of card -->
