@@ -1,9 +1,15 @@
+<%@page import="evaluation.EvaluationDAO"%>
+<%@page import="java.sql.Date"%>
+
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.util.Calendar"%>
+<%@ page import="evaluation.BB"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="evaluation.EvaluationDTO"%>
 <%@ page import="evaluation.EvaluationDAO"%>
 <%@ page import="java.io.PrintWriter"%>
 <%
-
 	request.setCharacterEncoding("UTF-8");
 	/* String userID = null;
 	if(session.getAttribute("userID") != null) {
@@ -19,72 +25,83 @@
 		script.println("</script>");
 		script.close();
 	} */
-
-	request.setCharacterEncoding("UTF-8");
+	  
+// workday == 업무일
+    
+     int holiday = 0 ;
+     int  workday =0;
 	String userID="aa";
 	String taskName = null;
+	String teamName=null;
 	String leaderName = null;
+	String userName=null;
+	String employee=null;
 	String startDate = null;
 	String endDate = null;
-	int annual = 0;
-    String evaluationBehavior = null;
-    String performanceReview = null;
+	
 	String evaluationContent = null;
-	String totalScore=null;
-	String operationRatio="가동률";
-    int total=0;
-	if(request.getParameter("taskName") != null) {
+	int operationRatio=0;
+   
+	 if(request.getParameter("holiday") !=null ) {
+	
+		holiday = (int)Integer.parseInt(request.getParameter("holiday"));
+		}
+    if(request.getParameter("taskName") != null) {
 		taskName = (String) request.getParameter("taskName");
 	}
-
-	if(request.getParameter("leaderName") != null) {
+    if(request.getParameter("teamName") != null) {
+		teamName = (String) request.getParameter("teamName");
+	}
+    if(request.getParameter("leaderName") != null) {
 		leaderName = (String) request.getParameter("leaderName");
 	}
-
- if(request.getParameter("annual") != null) {
-		try {
-			annual = Integer.parseInt(request.getParameter("annual"));
-		} catch (Exception e) {
-			System.out.println("연차 데이터 오류");
-		}
+    if(request.getParameter("userName") != null) {
+		userName = (String) request.getParameter("userName");
+	}
+    if(request.getParameter("employee") != null) {
+		employee = (String) request.getParameter("employee");
+	}
+    if(request.getParameter("startDate") != null) {
+	startDate = (String) request.getParameter("startDate");	
 	}
  
- 
- if(request.getParameter("startDate") != null) {
-		startDate = (String) request.getParameter("startDate");
-	}
  if(request.getParameter("endDate") != null) {
 		endDate = (String) request.getParameter("endDate");
 	}
-	if(request.getParameter("evaluationBehavior") != null) {
-		evaluationBehavior = (String) request.getParameter("evaluationBehavior");
-	}
-
-	if(request.getParameter("performanceReview") != null) {
-		performanceReview = (String) request.getParameter("performanceReview");
-	}
-
+    if(startDate ==""||endDate==""){
+    	PrintWriter script =response.getWriter();
+    	script.println("<script>");
+    	script.println("alert('날짜입력하세요.');");
+    	script.println("history.back();");
+    	script.println("</script>");
+    }
+    
+    
+    if(request.getParameter("operationRatio")==null){
+    	java.sql.Date a=java.sql.Date.valueOf(startDate);
+    	java.sql.Date b=java.sql.Date.valueOf(endDate);
+     
+       workday=(BB.getWorkingDaysBetweenTwoDates(a, b)+1);
+       operationRatio=(int)workday;
+    }
+    String[] start = startDate.split("-");
+    String[] end=endDate.split("-");
+    String s="";
+    String e="";
+    for(int i=0; i<start.length; i++){
+    	s+=start[i];
+    	e+=end[i];
+    }
+    int s1=Integer.parseInt(s);
+    int e1=Integer.parseInt(e);
+    
+   
 	if(request.getParameter("evaluationContent") != null) {
 		evaluationContent = (String) request.getParameter("evaluationContent");
 	}
 
-	if(request.getParameter("totalScore") == null) {
-		total = (Integer.parseInt(performanceReview)+Integer.parseInt(evaluationBehavior)/2);
-	    if(total>8){
-	    	totalScore="A";
-	    }else if(total>6){
-	    	totalScore="B";
-	    }else if(total>4){
-	    	totalScore="C";
-	    }else if(total>2){
-	    	totalScore="D";
-	    }else{
-	    	totalScore="E";
-	    }
-	    
-	}
 
-	if (taskName == null || leaderName == null || startDate == null || endDate == null || evaluationBehavior == null || performanceReview == null || evaluationContent.equals("")) {
+	if (taskName == null || leaderName == null || userName==null || startDate == "" || endDate == ""|| evaluationContent.equals("")) {
 		PrintWriter script = response.getWriter();
 		script.println("<script>");
 		script.println("alert('입력이 안 된 사항이 있습니다.');");
@@ -92,25 +109,32 @@
 		script.println("</script>");
 		script.close();
 
+	}else if(s1>e1){
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('시작일을 확인하세요.');");
+		script.println("history.back();");
+		script.println("</script>");
+		script.close();
 	} else {
 		EvaluationDAO evaluationDAO = new EvaluationDAO();
-		System.out.println("total "+totalScore);
-		System.out.print(" 아이디"+userID+" 업무"+taskName+" 리더"+leaderName+" 시작"+startDate+" 종료"+endDate+" 연차"+annual+" 가동률"+operationRatio+" 행동평가"+evaluationBehavior+" 업무평가"+performanceReview+" 토탈"+totalScore+" 콘텐츠"+evaluationContent);
-		int result = evaluationDAO.write(new EvaluationDTO(0, userID, taskName, leaderName, startDate, endDate, annual , operationRatio, evaluationBehavior, performanceReview, totalScore, evaluationContent));
+		System.out.println("홀리데이"+holiday+holiday);
+		int result = evaluationDAO.write(new EvaluationDTO(0,userID,taskName,teamName,leaderName,userName,employee,startDate,endDate,operationRatio,holiday,evaluationContent));
 		if (result == -1) {
-			PrintWriter script = response.getWriter();
-			script.println("<script>");
-			script.println("alert('평가 등록에 실패했습니다.');");
-			script.println("history.back();");
-			script.println("</script>");
-			script.close();
-	
+	PrintWriter script = response.getWriter();
+	script.println("<script>");
+	script.println("alert('업무 등록에 성공');");
+	script.println("location.href = './index.jsp';");
+	script.println("</script>");
+	script.close();
 		} else {
-			PrintWriter script = response.getWriter();
-			script.println("<script>");
-			script.println("location.href = './index.jsp';");
-			script.println("</script>");
-			script.close();
+	PrintWriter script = response.getWriter();
+	script.println("<script>");
+	script.println("alert('업무 등록 실패');");
+	script.println("history.back();");
+	script.println("location.href = './index.jsp';");
+	script.println("</script>");
+	script.close();
 		}
 	}
 %>

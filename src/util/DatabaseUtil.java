@@ -7,7 +7,7 @@ public class DatabaseUtil {
 
 	public static Connection getConnection () {
 		try {
-			String dbURL="jdbc:mysql://localhost:3306/openhands?&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+			String dbURL="jdbc:mysql://localhost/openhands?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 			String dbID="root";
 			String dbPassword="1234";
 			Class.forName("com.mysql.jdbc.Driver");

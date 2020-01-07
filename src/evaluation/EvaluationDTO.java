@@ -5,15 +5,17 @@ public class EvaluationDTO {
 	int evaluationID;
 	String userID;
 	String taskName;
+	String teamName;
 	String leaderName;
+	String userName;
+	String employee;
 	String startDate;
 	String endDate;
-	int annual;
-	String operationRatio;
-	String evaluationBehavior;
-	String performanceReview;
+	int operationRatio;
+	int holiday;
 	String evaluationContent;
-	String totalScore;
+	
+	
 	
 	public int getEvaluationID() {
 		return evaluationID;
@@ -33,11 +35,29 @@ public class EvaluationDTO {
 	public void setTaskName(String taskName) {
 		this.taskName = taskName;
 	}
+	public String getTeamName() {
+		return teamName;
+	}
+	public void setTeamName(String teamName) {
+		this.teamName = teamName;
+	}
 	public String getLeaderName() {
 		return leaderName;
 	}
 	public void setLeaderName(String leaderName) {
 		this.leaderName = leaderName;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getEmployee() {
+		return employee;
+	}
+	public void setEmployee(String employee) {
+		this.employee = employee;
 	}
 	public String getStartDate() {
 		return startDate;
@@ -51,29 +71,17 @@ public class EvaluationDTO {
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
-	public int getAnnual() {
-		return annual;
-	}
-	public void setAnnual(int annual) {
-		this.annual = annual;
-	}
-	public String getOperationRatio() {
+	public int getOperationRatio() {
 		return operationRatio;
 	}
-	public void setOperationRatio(String operationRatio) {
+	public void setOperationRatio(int operationRatio) {
 		this.operationRatio = operationRatio;
 	}
-	public String getEvaluationBehavior() {
-		return evaluationBehavior;
+	public int getHoliday() {
+		return holiday;
 	}
-	public void setEvaluationBehavior(String evaluationBehavior) {
-		this.evaluationBehavior = evaluationBehavior;
-	}
-	public String getPerformanceReview() {
-		return performanceReview;
-	}
-	public void setPerformanceReview(String performanceReview) {
-		this.performanceReview = performanceReview;
+	public void setHoliday(int holiday) {
+		this.holiday = holiday;
 	}
 	public String getEvaluationContent() {
 		return evaluationContent;
@@ -81,32 +89,25 @@ public class EvaluationDTO {
 	public void setEvaluationContent(String evaluationContent) {
 		this.evaluationContent = evaluationContent;
 	}
-	public String getTotalScore() {
-		return totalScore;
-	}
-	public void setTotalScore(String totalScore) {
-		this.totalScore = totalScore;
-	}
 	public EvaluationDTO() {
 		
 	}
-	public EvaluationDTO(int evaluationID, String userID, String taskName, String leaderName, String startDate,
-			String endDate, int annual, String operationRatio, String evaluationBehavior, String performanceReview,
-			String totalScore, String evaluationContent) {
+	public EvaluationDTO(int evaluationID, String userID, String taskName, String teamName, String leaderName,
+			String userName, String employee, String startDate, String endDate, int operationRatio, int holiday,
+			String evaluationContent) {
 		super();
 		this.evaluationID = evaluationID;
 		this.userID = userID;
 		this.taskName = taskName;
+		this.teamName = teamName;
 		this.leaderName = leaderName;
+		this.userName = userName;
+		this.employee = employee;
 		this.startDate = startDate;
 		this.endDate = endDate;
-		this.annual = annual;
 		this.operationRatio = operationRatio;
-		this.evaluationBehavior = evaluationBehavior;
-		this.performanceReview = performanceReview;
-		this.totalScore = totalScore;
+		this.holiday = holiday;
 		this.evaluationContent = evaluationContent;
-		
 	}
 	
 	
